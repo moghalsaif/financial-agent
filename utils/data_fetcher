@@ -1,0 +1,39 @@
+import yfinance as yf
+
+def fetch_stock_data(ticker):
+    """
+    Fetch stock data and news for a given ticker using yfinance.
+
+    Parameters:
+        ticker (str): The stock ticker symbol (e.g., "NVDA").
+
+    Returns:
+        dict: A dictionary containing analyst recommendations and news.
+    """
+    try:
+        print(f"Fetching data for {ticker}...")
+        stock = yf.Ticker(ticker)
+        
+        # Fetch analyst recommendations
+        recommendations = stock.recommendations
+        if recommendations is not None:
+            print("Analyst recommendations fetched successfully!")
+            print("Recommendations Columns:", recommendations.columns)  # Debug statement
+        else:
+            print("No analyst recommendations found.")
+        
+        # Fetch company news
+        news = stock.news
+        if news:
+            print("Company news fetched successfully!")
+            print("News Data:", news)  # Debug statement
+        else:
+            print("No company news found.")
+        
+        return {
+            "recommendations": recommendations,
+            "news": news
+        }
+    except Exception as e:
+        print(f"Error fetching data: {e}")
+        return None
